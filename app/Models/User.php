@@ -41,4 +41,28 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    // ユーザが投稿した記事の取得
+    public function blogEntries()
+    {
+        return $this->hasMany(BlogEntry::class);
+    }
+
+    // ユーザがお気に入り登録しているユーザの取得
+    public function followings()
+    {
+        return $this->belongsToMany(User::class, 'user_follow', 'user_id', 'follow_id')->withTimestamps();
+    }
+
+    // お気に入り登録されているユーザの取得
+    public function followers()
+    {
+        return $this->belongsToMany(User::class, 'user_follow', 'follow_id', 'user_id')->withTimestamps();
+    }
+
+    // お気に入り登録している記事の取得
+    public function favorites()
+    {
+        return $this->belongsToMany(BlogEntry::class, 'favorites', 'user_id', 'entry_id')->withTimestamps();
+    }
 }
