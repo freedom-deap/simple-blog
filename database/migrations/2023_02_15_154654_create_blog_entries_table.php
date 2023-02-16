@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('blog_entries', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->multiLineString('content');
+            $table->string('content', 10000);
             $table->unsignedBigInteger('user_id');
             $table->timestamps();
             

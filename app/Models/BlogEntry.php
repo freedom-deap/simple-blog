@@ -15,6 +15,12 @@ class BlogEntry extends Model
         'content'
     ];
     
+    // protected function serializeDate(DateTimeInterface $date)
+    // {
+    //     return $date->format('Y-m-d');
+    // }
+    
+    
     // 記事を投稿したユーザの取得
     public function user()
     {
@@ -25,6 +31,11 @@ class BlogEntry extends Model
     public function favorited()
     {
         return $this->belongsToMany(User::class, 'favorites', 'entry_id', 'user_id')->withTimestamps();   
+    }
+    
+    public function loadFavoriteUsers()
+    {
+        return $this->loadCount('favorited');
     }
     
     
