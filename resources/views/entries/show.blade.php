@@ -15,7 +15,11 @@
             {{-- ログインしているかの判定 --}}
             @if (Auth::check())
             <div>
-                <button>お気に入り登録</button>
+                @if (\Auth::user()->isFavorited($entry->id))
+                    <button><a href="{{ route('unfavorite', $entry->id) }}">お気に入り解除</a></button>
+                @else
+                    <button><a href="{{ route('favorite', $entry->id) }}">お気に入り登録</a></button>
+                @endif
             </div>
             @endif
             {{-- 閲覧しているユーザが投稿者かどうかの判定 --}}

@@ -54,7 +54,13 @@ class BlogEntriesController extends Controller
     */
     public function store(Request $request)
     {
-        $targetEntry  = BlogEntry::findOrFail($request->get('entry_id'));
+        $request->validate([
+            'title' => 'bail|required|max:255',
+            'content' => 'required'
+        ]);
+        $attributes = $request->only(['title', 'content']);
+        $request->user()->blogEntries()->create($attributes);
+        
         return redirect('/');
     }
     
@@ -77,8 +83,18 @@ class BlogEntriesController extends Controller
     * 
     * @return \Illuminate\View\View
     */
-    public function update($entryId)
+    public function update(Request $request)
     {
+        $request->validate([
+            'title' => 'bail|required|max:255',
+            'content' => 'required'
+        ]);
+        $targetEntry  = BlogEntry::findOrFail($request->get('entry_id'));
+        $targetEntry->title = $request->get('title');
+        $targetEntry->content = $request->get('content');
+        
+        $targetEntry->save();
+        
         return redirect('/');
     }
     

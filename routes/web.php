@@ -3,6 +3,8 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\BlogEntriesController;
+use App\Http\Controllers\FavoritesController;
+use App\Http\Controllers\UserFollowController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,16 +19,16 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [BlogEntriesController::class, 'index'])->name('dashboard');
+Route::get('show/{id}', [BlogEntriesController::class, 'show'])->name('blog_entries.show');
 
 Route::group(['middleware' => ['auth']], function () {
-    Route::resource('blog_entries', BlogEntriesController::class);
-    Route::resource('users', UsersController::class);
-});
-
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::resource('blog_entries', BlogEntriesController::class, ['except' => ['show']]);
+    Route::get('user/{user_id}', [UsersController::class, 'index'])->name('user.index');
+    Route::get('follow/{user_id}', [UserFollowController::class, 'store'])->name('follow');
+    Route::get('unfollow/{user_id}', [UserFollowController::class, 'destroy'])->name('unfollow');
+    Route::get('favorite/{entry_id}', [FavoritesController::class, 'store'])->name('favorite');
+    Route::get('unfavorite/{entry_id}', [FavoritesController::class, 'destroy'])->name('unfavorite');
+    
 });
 
 require __DIR__.'/auth.php';

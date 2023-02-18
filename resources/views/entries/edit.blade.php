@@ -1,17 +1,18 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('記事の編集') }}
+            {{ __('新規記事作成') }}
         </h2>
     </x-slot>
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <form method="POST" action="{{ route('blog_entries.store', $entry->id) }}">
+            <form method="POST" action="{{ route('blog_entries.update', $entry->id) }}">
                 @csrf
+                @method('PUT')
                 <div>
                     <label for="message" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">タイトル</label>
-                    <input name="title" value="{{ __($entry->title)}}"></input>
+                    <input name="title" value="{{ __($entry->title) }}"></input>
                 </div>
                 <div>
                     <label for="message" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">本文</label>
