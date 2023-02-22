@@ -16,3 +16,10 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+.dockerignore
+.env_global
+.env_local
+.fly/
+Dockerfile
+fly.toml
+simple-blog.sql
