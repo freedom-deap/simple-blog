@@ -102,4 +102,9 @@ class User extends Authenticatable
             $this->followings()->attach($userId);
         }
     }
+    
+    public function loadRelationshipCounts()
+    {
+        $this->loadCount(['blogEntries', 'followings', 'favorites']);
+    }
 }

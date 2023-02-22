@@ -1,24 +1,24 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <h2 class="mx-auto w-3/4 flex justify-start font-semibold text-xl text-gray-800 leading-tight">
             {{ __('新規記事作成') }}
         </h2>
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <form method="POST" action="{{ route('blog_entries.store') }}">
+        <div class="mx-auto w-3/4 flex justify-center smsm:px-6 lg:px-8">
+            <form method="POST" action="{{ route('blog_entries.store') }}" class="w-full">
                 @csrf
-                <div>
+                <div class="mb-5 mx-auto w-3/4">
                     <label for="message" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">タイトル</label>
-                    <input name="title"></input>
+                    <input name="title" required="required" class="input w-full rounded-lg border border-gray-300"></input>
                 </div>
-                <div>
+                <div class="mb-5 mx-auto w-3/4">
                     <label for="message" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">本文</label>
-                    <textarea name="content" class="block p-2.5 w-9/12 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Write your thoughts here..."></textarea> 
+                    <textarea name="content" required="required" class="block p-2.5 w-full h-50 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 textarea textarea-lg" rows="15" placeholder="記入例: <h2>見出し</h2>"></textarea> 
                 </div>
-                <div>
-                    <button type="button" onclick="submit()">作成</button>
+                <div class="mt-5 block flex justify-end fixed bottom-10 right-20">
+                    <button type="button" class="btn btn-primary" onclick="submit()">新規記事作成</button>
                 </div>
             </form>
         </div>

@@ -24,11 +24,11 @@ Route::get('show/{id}', [BlogEntriesController::class, 'show'])->name('blog_entr
 Route::group(['middleware' => ['auth']], function () {
     Route::resource('blog_entries', BlogEntriesController::class, ['except' => ['show']]);
     Route::get('user/{user_id}', [UsersController::class, 'index'])->name('user.index');
-    Route::get('follow/{user_id}', [UserFollowController::class, 'store'])->name('follow');
-    Route::get('unfollow/{user_id}', [UserFollowController::class, 'destroy'])->name('unfollow');
-    Route::get('favorite/{entry_id}', [FavoritesController::class, 'store'])->name('favorite');
-    Route::get('unfavorite/{entry_id}', [FavoritesController::class, 'destroy'])->name('unfavorite');
-    
+    Route::post('update', [UsersController::class, 'update'])->name('user.update');
+    Route::post('follow', [UserFollowController::class, 'store'])->name('follow');
+    Route::delete('unfollow', [UserFollowController::class, 'destroy'])->name('unfollow');
+    Route::post('favorite', [FavoritesController::class, 'store'])->name('favorite');
+    Route::delete('unfavorite', [FavoritesController::class, 'destroy'])->name('unfavorite');
 });
 
 require __DIR__.'/auth.php';

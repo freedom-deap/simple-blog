@@ -1,3 +1,6 @@
+const userName = document.getElementById('user-name');
+userName.innerHTML = userName.innerHTML.replaceAll('\n', '<br>');
+
 function changeActiveTab(event, selected){
     const activeTab = document.getElementsByClassName('tab-active')[0];
     const selectTab = event.target;

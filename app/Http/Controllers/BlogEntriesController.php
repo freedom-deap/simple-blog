@@ -15,7 +15,7 @@ class BlogEntriesController extends Controller
     */
     public function index()
     {
-        $entries = BlogEntry::all();
+        $entries = BlogEntry::paginate(10);
         
         foreach($entries as $entry)
         {
@@ -106,6 +106,8 @@ class BlogEntriesController extends Controller
     */
     public function destroy($entryId)
     {
+        $targetEntry  = BlogEntry::findOrFail($entryId);
+        $targetEntry->delete();
         return redirect('/');
     }
 }
