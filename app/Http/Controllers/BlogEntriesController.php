@@ -72,9 +72,14 @@ class BlogEntriesController extends Controller
     */
     public function edit($entryId)
     {
-        return view('entries.edit', [
-            'entry' => BlogEntry::findOrFail($entryId)
-        ]);
+        $entry = BlogEntry::findOrFail($entryId);
+        if(\Auth::id() === $entry->user_id)
+        {
+            return view('entries.edit', [
+                'entry' => $entry
+            ]);
+        }
+        return redirect('/');
     }
     
     /**
@@ -90,10 +95,12 @@ class BlogEntriesController extends Controller
             'content' => 'required'
         ]);
         $targetEntry  = BlogEntry::findOrFail($request->get('entry_id'));
-        $targetEntry->title = $request->get('title');
-        $targetEntry->content = $request->get('content');
-        
-        $targetEntry->save();
+        if(\Auth::id() === $targetEntry->user_id)
+        {
+            $targetEntry->title = $request->get('title');
+            $targetEntry->content = $request->get('content');
+            $targetEntry->save();
+        }
         
         return redirect('/');
     }
@@ -107,7 +114,10 @@ class BlogEntriesController extends Controller
     public function destroy($entryId)
     {
         $targetEntry  = BlogEntry::findOrFail($entryId);
-        $targetEntry->delete();
+        if(\Auth::id() === $targetEntry->user_id)
+        {
+            $targetEntry->delete();
+        }
         return redirect('/');
     }
 }
