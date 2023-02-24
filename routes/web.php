@@ -28,7 +28,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('follow', [UserFollowController::class, 'store'])->name('follow');
     Route::delete('unfollow', [UserFollowController::class, 'destroy'])->name('unfollow');
     Route::post('favorite', [FavoritesController::class, 'store'])->name('favorite');
-    Route::delete('unfavorite', [FavoritesController::class, 'destroy'])->name('unfavorite');
 });
 
 require __DIR__.'/auth.php';

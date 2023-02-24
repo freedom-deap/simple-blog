@@ -12,7 +12,7 @@
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
         
         <!-- For show entries -->
-        <link rel="stylesheet" type="text/css" href="{{ asset('css/decorateEntryText.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ asset('css/temp.css') }}">
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -36,4 +36,5 @@
             </main>
         </div>
     </body>
+    <script src="{{ asset('/js/favorite.js') }}"></script>
 </html>

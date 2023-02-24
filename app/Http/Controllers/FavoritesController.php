@@ -10,13 +10,9 @@ class FavoritesController extends Controller
     {
         $entryId = $request->get('entry_id');
         \Auth::user()->favorite($entryId);
-        return back();
-    }
-
-    public function destroy(Request $request)
-    {
-        $entryId = $request->get('entry_id');
-        \Auth::user()->favorite($entryId);
-        return back();
+        header('Content-type: application/json');
+        return response()->json([
+            'isFavorited' => \Auth::user()->isFavorited($entryId),
+        ]);
     }
 }
