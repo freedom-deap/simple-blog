@@ -23,3 +23,5 @@ yarn-error.log
 Dockerfile
 fly.toml
 simple-blog.sql
+app/Http/Middleware/TrustProxies.php
+*_bk

@@ -15,11 +15,6 @@ class BlogEntry extends Model
         'content'
     ];
     
-    // protected function serializeDate(DateTimeInterface $date)
-    // {
-    //     return $date->format('Y-m-d');
-    // }
-    
     
     // 記事を投稿したユーザの取得
     public function user()
