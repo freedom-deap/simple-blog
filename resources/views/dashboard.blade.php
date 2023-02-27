@@ -20,7 +20,7 @@
                             <p class="text-sm">{{ __('投稿日: '. $entry->created_at->format('Y年m月d日'). ' 更新日: '. $entry->updated_at->format('Y年m月d日')) }}</p>
                         @endif
                         <a class="text-2xl hover:underline" href="{{ route('blog_entries.show', $entry->id) }}">{{ __($entry->title) }}</a>
-                        <p class="text-sm">お気に入り数: {{ __($entry->favorited_count) }}</p>
+                        <p id="favorite-num{{ $entry->id }}" class="text-sm">お気に入り数: {{ __($entry->favorited_count) }}</p>
                         @if (Auth::check())
                             <div class="flex justify-end">
                                 <form class="favorite-form" method="POST" action="{{ route('favorite') }}">

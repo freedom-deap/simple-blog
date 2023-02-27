@@ -17,3 +17,11 @@
 .unfavorited {
   fill: none;
 }
+
+.btn-info {
+    background-color: #3ABFF8;
+}
+
+.btn-error {
+    background-color: #F87272;
+}

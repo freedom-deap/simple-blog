@@ -16,20 +16,15 @@
                     {{-- ログインしているかの判定 --}}
                     @if (Auth::check())
                     <div class="block mb-4">
-                        @if (\Auth::user()->isFavorited($entry->id))
-                            <form method="POST" action="{{ route('unfavorite') }}">
-                                @csrf
-                                @method('DELETE')
-                                <input type="hidden" name="entry_id" value="{{ __($entry->id) }}"></input>
-                                <button class="btn btn-error">お気に入り解除</button>
-                            </form>
-                        @else
-                            <form method="POST" action="{{ route('favorite') }}">
-                                @csrf
-                                <input type="hidden" name="entry_id" value="{{ __($entry->id) }}"></input>
-                                <button class="btn btn-info">お気に入り登録</button>
-                            </form>
-                        @endif
+                        <form class="favorite-btn" method="POST" action="{{ route('favorite') }}">
+                            @csrf
+                            <input type="hidden" name="entry_id" value="{{ __($entry->id) }}"></input>
+                            @if (\Auth::user()->isFavorited($entry->id))
+                                <button class="btn btn-error favorite-btn">お気に入り解除</button>
+                            @else
+                                <button class="btn btn-info favorite-btn">お気に入り登録</button>
+                            @endif
+                        </form>
                     </div>
                     @endif
                     {{-- 閲覧しているユーザが投稿者かどうかの判定 --}}
