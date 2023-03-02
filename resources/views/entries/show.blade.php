@@ -3,12 +3,17 @@
         <h2 class="mx-auto w-3/4 flex justify-start font-semibold text-xl text-gray-800 leading-tight">{{ __($entry->title)}}</h2>
         <p class="mx-auto w-3/4 flex justify-start text-sm">投稿日時: {{__($entry->created_at->format('Y年m月d日'))}}, 更新日時: {{__($entry->updated_at->format('Y年m月d日'))}}</p>
         <a class="mx-auto w-3/4 flex justify-start text-xs hover:underline" href="{{ route('user.index', $entry->user->id) }}">{{ __($entry->user->name) }}</a>
-
     </x-slot>
 
-    <div class="py-12">
+    <div class="py-8">
         <div class="mx-auto w-3/4 flex justify-center sm:px-6 lg:px-8">
             <div class="w-full">
+                <div class="w-3/4 mx-auto pb-8">
+                    @if ($entry->img_path !== null)
+                    {{-- <img class="p-4" src="{{ \Storage::disk('s3')->temporaryUrl($entry->img_path, now()->addDay()) }}" /> --}}
+                    <img class="p-4" src="{{ '/storage/'. $entry->img_path }}" />
+                    @endif
+                </div>
                 <div id="entry-text" class="bg-white w-3/4 mx-auto p-8">
                   {!! $entry->content !!}
                 </div>
@@ -30,7 +35,7 @@
                     {{-- 閲覧しているユーザが投稿者かどうかの判定 --}}
                     @if ($entry->user_id === Auth::id())
                         <div class="block">
-                            <button class="btn btn-primary"><a href="{{ route('blog_entries.edit', $entry->id)}}">記事の編集</a></button>
+                            <a href="{{ route('blog_entries.edit', $entry->id)}}"><button class="btn btn-primary">記事の編集</button></a>
                         </div>
                     @endif
                 </div>

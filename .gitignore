@@ -25,3 +25,4 @@ fly.toml
 simple-blog.sql
 app/Http/Middleware/TrustProxies.php
 *_bk
+public/img/temp

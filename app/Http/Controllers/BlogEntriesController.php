@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use App\Models\BlogEntry;
+use App\Services\ImageService;
 
 class BlogEntriesController extends Controller
 {
@@ -94,7 +96,9 @@ class BlogEntriesController extends Controller
             'title' => 'bail|required|max:255',
             'content' => 'required'
         ]);
+        
         $targetEntry  = BlogEntry::findOrFail($request->get('entry_id'));
+        
         if(\Auth::id() === $targetEntry->user_id)
         {
             $targetEntry->title = $request->get('title');
@@ -103,6 +107,19 @@ class BlogEntriesController extends Controller
         }
         
         return redirect('/');
+    }
+    
+    // 記事の画像に関しての処理
+    public function imageUpdate(Request $request)
+    {
+        $targetEntry  = BlogEntry::findOrFail($request->get('entry_id'));
+        if(\Auth::id() === $targetEntry->user_id)
+        {
+            ImageService::imgOperation($request, $targetEntry);
+            $targetEntry->save();
+        }
+
+        return back();
     }
     
     /**
@@ -116,6 +133,7 @@ class BlogEntriesController extends Controller
         $targetEntry  = BlogEntry::findOrFail($entryId);
         if(\Auth::id() === $targetEntry->user_id)
         {
+            Storage::disk('public')->delete($targetEntry->img_path);
             $targetEntry->delete();
         }
         return redirect('/');
