@@ -24,36 +24,21 @@ class ImageService
     public static function saveImage($uploadFile, $targetEntry)
     {
         $filePath = self::imageResize($uploadFile);
-        $targetEntry->img_path = $filePath;
+        $targetEntry->img_path = '/'. $filePath;
     }
     
     public static function imageResize($imageObj)
     {
-        $tmpImagePath = $imageObj->store('public/images/tmp');
-        $tmpStoragePath = str_replace('public/', 'storage/', $tmpImagePath);
+        $tmpImg = Image::make($imageObj);
         
-        try
-        {
-            $tmpImg = Image::make($tmpStoragePath);
-            
-            list($height, $width) = array($tmpImg->height(), $tmpImg->width());
-            $resizePercent = $height > $width ? 1000/$height : 1000/$width;
-    
-            $tmpImg->resize($width*$resizePercent, $height*$resizePercent);
-            $resizeImgPath = str_replace('tmp', 'blog_entry', $tmpStoragePath);
-            $tmpImg->save($resizeImgPath, 80, 'jpg');
-            
-            unlink($tmpStoragePath);
-    
-            $replaceTarget = array('public', 'tmp');
-            $replaceResult = array('', 'blog_entry');
-            
-            return str_replace($replaceTarget, $replaceResult, $tmpImagePath);
-        }
-        catch(Exception $e)
-        {
-            dd(array($tmpStoragePath, file_exists($tmpStoragePath), $tmpImagePath, file_exists($tmpImagePath)));
-        }
+        list($height, $width) = array($tmpImg->height(), $tmpImg->width());
+        $resizePercent = $height > $width ? 1000/$height : 1000/$width;
+
+        $tmpImg->resize($width*$resizePercent, $height*$resizePercent);
+        $resizeImgPath = env('STORAGE_PATH'). '/'.  $imageObj->hashName();
+        $tmpImg->save($resizeImgPath, 80, 'jpg');
+
+        return $resizeImgPath;
     }
     
     public static function imgOperation($request, $targetEntry)

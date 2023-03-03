@@ -36,7 +36,7 @@
                             @csrf
                             @if ($entry->img_path !== null)
                                 <h3>現在設定されている画像</h3>
-                                <img class="p-4" src="{{ '/storage/'. $entry->img_path }}" />
+                                <img class="p-4" src="{{ $entry->img_path }}" />
                                 <div class="mx-auto p-4">
                                     <button type="submit" class="btn btn-info" name="update-btn" value="update">画像の更新</button>
                                     <button type="submit" class="btn btn-error" name="delete-btn" value="delete">画像の削除</button>
