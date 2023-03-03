@@ -9,15 +9,10 @@ use Illuminate\Http\File;
 
 class ImageService
 {
-    // public static function checkUploadedFile()
-    // {
-        
-    // }
-    
     public static function deleteImage($request, $targetEntry)
     {
         $deleteImgPath = $request->get('img_path');
-        Storage::disk('public')->delete($deleteImgPath);
+        unlink(str_replace('/storage', 'storage', $deleteImgPath));
         $targetEntry->img_path = null;
     }
     
@@ -57,8 +52,8 @@ class ImageService
             if(is_null($uploadFile)){
                 return;
             }
-            self::saveImage($uploadFile, $targetEntry);
             self::deleteImage($request, $targetEntry);
+            self::saveImage($uploadFile, $targetEntry);
         }
         elseif($request->has('delete-btn'))
         {
