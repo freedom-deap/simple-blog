@@ -40,8 +40,8 @@ class ImageService
         $resizeImgPath = str_replace('tmp', 'blog_entry', $tmpStoragePath);
         $tmpImg->save($resizeImgPath, 80, 'jpg');
         
-        Image::make($tmpStoragePath)->destroy();
-        
+        unlink($tmpStoragePath);
+
         $replaceTarget = array('public', 'tmp');
         $replaceResult = array('', 'blog_entry');
         
