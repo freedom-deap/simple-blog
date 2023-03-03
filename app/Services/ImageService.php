@@ -9,43 +9,31 @@ use Illuminate\Http\File;
 
 class ImageService
 {
-    // public static function checkUploadedFile()
-    // {
-        
-    // }
-    
     public static function deleteImage($request, $targetEntry)
     {
         $deleteImgPath = $request->get('img_path');
-        Storage::disk('public')->delete($deleteImgPath);
+        unlink(str_replace('/storage', 'storage', $deleteImgPath));
         $targetEntry->img_path = null;
     }
     
     public static function saveImage($uploadFile, $targetEntry)
     {
         $filePath = self::imageResize($uploadFile);
-        $targetEntry->img_path = $filePath;
+        $targetEntry->img_path = '/'. $filePath;
     }
     
     public static function imageResize($imageObj)
     {
-        $tmpImagePath = $imageObj->store('public/images/tmp');
-        $tmpStoragePath = str_replace('public/', 'storage/', $tmpImagePath);
-        $tmpImg = Image::make($tmpStoragePath);
+        $tmpImg = Image::make($imageObj);
         
         list($height, $width) = array($tmpImg->height(), $tmpImg->width());
         $resizePercent = $height > $width ? 1000/$height : 1000/$width;
 
         $tmpImg->resize($width*$resizePercent, $height*$resizePercent);
-        $resizeImgPath = str_replace('tmp', 'blog_entry', $tmpStoragePath);
+        $resizeImgPath = env('STORAGE_PATH'). '/'.  $imageObj->hashName();
         $tmpImg->save($resizeImgPath, 80, 'jpg');
-        
-        unlink($tmpStoragePath);
 
-        $replaceTarget = array('public', 'tmp');
-        $replaceResult = array('', 'blog_entry');
-        
-        return str_replace($replaceTarget, $replaceResult, $tmpImagePath);
+        return $resizeImgPath;
     }
     
     public static function imgOperation($request, $targetEntry)
@@ -64,8 +52,8 @@ class ImageService
             if(is_null($uploadFile)){
                 return;
             }
-            self::saveImage($uploadFile, $targetEntry);
             self::deleteImage($request, $targetEntry);
+            self::saveImage($uploadFile, $targetEntry);
         }
         elseif($request->has('delete-btn'))
         {
