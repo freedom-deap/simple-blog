@@ -23,6 +23,7 @@ Route::get('show/{id}', [BlogEntriesController::class, 'show'])->name('blog_entr
 
 Route::group(['middleware' => ['auth']], function () {
     Route::resource('blog_entries', BlogEntriesController::class, ['except' => ['show']]);
+    Route::post('img_update', [BlogEntriesController::class, 'imageUpdate'])->name('image.update');
     Route::get('user/{user_id}', [UsersController::class, 'index'])->name('user.index');
     Route::post('update', [UsersController::class, 'update'])->name('user.update');
     Route::post('follow', [UserFollowController::class, 'store'])->name('follow');
