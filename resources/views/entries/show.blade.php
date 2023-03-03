@@ -10,7 +10,6 @@
             <div class="w-full">
                 <div class="w-3/4 mx-auto pb-8">
                     @if ($entry->img_path !== null)
-                    {{-- <img class="p-4" src="{{ \Storage::disk('s3')->temporaryUrl($entry->img_path, now()->addDay()) }}" /> --}}
                     <img class="p-4" src="{{ '/storage/'. $entry->img_path }}" />
                     @endif
                 </div>
